@@ -1,10 +1,12 @@
 package me.regstudio.app;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,7 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Intent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,14 +48,65 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("result");
+                signup();
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //go back to main page (clean up is done in the page's class)
+            }
+        }
+
+        if (requestCode == 2)
+        {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("result");
+                Login();
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+
+    }//onActivityResult
+
+    protected void makeSound()
+    {
+        final MediaPlayer mp = MediaPlayer.create(this, R.raw.sound);
+        mp.start();
+    }
+
+
     public void onButtonClick(View view)
     {
+
         if (view.getId() == R.id.BLogin)
         {
-            Intent i = new Intent(MainActivity.this, login.class);
-            startActivity(i);
+            Login();
         }
     }
+
+    public void Login()
+    {
+        makeSound();
+        Intent i = new Intent(MainActivity.this, login.class);
+        startActivityForResult(i, 1);
+    }
+
+    public void signup()
+    {
+        makeSound();
+        Intent signup = new Intent(MainActivity.this, Signup.class);
+        startActivityForResult(signup, 2);
+
+    }
+
 
     @Override
     public void onBackPressed() {
