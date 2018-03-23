@@ -92,15 +92,25 @@ public class Signup extends Activity implements View.OnClickListener{
             return false;
         }
 
+        if (setCheck()) {
+            Toast.makeText(this, "Sign up worked!", Toast.LENGTH_SHORT).show();
+            this.username = username; // init of username
+            return true;
+        }
+        else
+        {
+            Toast.makeText(this, "Sign up failed! Couldn't reach database", Toast.LENGTH_SHORT).show();
+            this.username = username; // init of username
+            return false;
+        }
 
-        Toast.makeText(this, "Sign up worked!", Toast.LENGTH_SHORT).show();
-        this.username = username; // init of username
-        return true;
     }
 
-    // add the username to the database
-    protected void addUser() {
-
+    //returns true if created successfully in database
+    protected boolean setCheck()
+    {
+        Data data = new Data(username, password);
+        return data.userCreate();
     }
 
     //check if username contains any special symbols

@@ -15,10 +15,9 @@ import android.widget.Toast;
 
 public class login extends Activity implements View.OnClickListener{
 
+    private String username, password;
     EditText user;
     EditText pass;
-
-    private String username, password;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,18 +37,27 @@ public class login extends Activity implements View.OnClickListener{
         {
             case R.id.button2:
 
-                //setup
+                //setup button pressed
                 finished(1);
                 break;
 
             case R.id.button:
-                //login
-                pass = (EditText)findViewById(R.id.PasswordL);
+                //login button pressed
                 user = (EditText)findViewById(R.id.UsernameL);
+                pass = (EditText)findViewById(R.id.PasswordL);
 
-                checkSet(user.getText().toString(), pass.getText().toString());
+                this.username = user.getText().toString();
+                this.password = pass.getText().toString();
 
-                finished(2);
+                //check the username and password combination
+                if (checkSet())
+                {
+                    finished(2);
+                } else{
+                    Toast.makeText(this,  "Login in failed! Couldn't reach database",
+                            Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
     }
@@ -57,16 +65,14 @@ public class login extends Activity implements View.OnClickListener{
     //login method (accessing the database)
     protected void log() {
 
-
-        Toast.makeText(this, username + ", you have logged on!",
+        Toast.makeText(this,  "Welcome back, " + username + "!",
                 Toast.LENGTH_SHORT).show();
     }
 
-    protected void checkSet(String username, String password) {
-
-        this.username = username;
-        this.password = password;
-
+    protected boolean checkSet() {
+        //check if this is a valid user/pass combination
+        Data data = new Data();
+        return data.checkUser(username, password);
     }
 
 
