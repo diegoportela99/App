@@ -58,6 +58,8 @@ public class MainActivity extends AppCompatActivity
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //go back to main page (clean up is done in the page's class)
+                makeSound();
+
             }
         }
 
