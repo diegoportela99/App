@@ -15,8 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,7 +81,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void onButtonClick(View view)
+    protected void onButtonClick(View view)
     {
 
         if (view.getId() == R.id.BLogin)
@@ -92,14 +90,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void Login()
+    protected void Login()
     {
         makeSound();
         Intent i = new Intent(MainActivity.this, login.class);
         startActivityForResult(i, 1);
     }
 
-    public void signup()
+    protected void signup()
     {
         makeSound();
         Intent signup = new Intent(MainActivity.this, Signup.class);
