@@ -18,8 +18,7 @@ import java.util.regex.Pattern;
 
 public class Signup extends Activity implements View.OnClickListener{
 
-    protected String password;
-
+    private String password, username, email;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +70,7 @@ public class Signup extends Activity implements View.OnClickListener{
         }
 
 
+
     //check user is compatible with database, returns true if it is and program ends
     protected boolean checkUser(String username, String password, String email)
     {
@@ -94,9 +94,14 @@ public class Signup extends Activity implements View.OnClickListener{
 
 
         Toast.makeText(this, "Sign up worked!", Toast.LENGTH_SHORT).show();
+        this.username = username; // init of username
         return true;
     }
 
+    // add the username to the database
+    protected void addUser() {
+
+    }
 
     //check if username contains any special symbols
     protected boolean specialCase(String username)

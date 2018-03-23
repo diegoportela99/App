@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 /**
@@ -13,6 +14,12 @@ import android.widget.Toast;
  */
 
 public class login extends Activity implements View.OnClickListener{
+
+    EditText user;
+    EditText pass;
+
+    private String username, password;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,14 +38,35 @@ public class login extends Activity implements View.OnClickListener{
         {
             case R.id.button2:
 
-                //set up login here, remember to call finnished after completed.
+                //setup
                 finished(1);
                 break;
 
             case R.id.button:
+                //login
+                pass = (EditText)findViewById(R.id.PasswordL);
+                user = (EditText)findViewById(R.id.UsernameL);
+
+                checkSet(user.getText().toString(), pass.getText().toString());
+
                 finished(2);
                 break;
         }
+    }
+
+    //login method (accessing the database)
+    protected void log() {
+
+
+        Toast.makeText(this, username + ", you have logged on!",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    protected void checkSet(String username, String password) {
+
+        this.username = username;
+        this.password = password;
+
     }
 
 
@@ -52,8 +80,7 @@ public class login extends Activity implements View.OnClickListener{
         }
         else
         {
-            // move this logged on text to an appropriate place as it will cause a bug later on
-            Toast.makeText(this, "You have logged on!", Toast.LENGTH_SHORT).show();
+            log();
             Intent returnIntent = getIntent();
             returnIntent.putExtra("result",x);
             setResult(RESULT_CANCELED,returnIntent);
