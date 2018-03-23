@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * Created by Diego on 22/03/2018.
  */
 
-public class Signup extends Activity implements View.OnClickListener{
+public class Signup extends Activity implements View.OnClickListener {
 
     private String password, username, email;
 
@@ -25,22 +25,26 @@ public class Signup extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
+        password = "";
+        username = "";
+        email = "";
+
         Button pressed = (Button) findViewById(R.id.signupBut);
         pressed.setOnClickListener(this);
     }
 
+    //start of button click
     @Override
     public void onClick(View v) {
-        switch(v.getId())
-        {
+        switch (v.getId()) {
             //if sign up button was pressed
             case R.id.signupBut:
 
                 //init all input fields
-                EditText passField = (EditText)findViewById(R.id.PasswordS);
-                EditText passField2 = (EditText)findViewById(R.id.PasswordS2);
-                EditText username = (EditText)findViewById(R.id.Username);
-                EditText email = (EditText)findViewById(R.id.Email);
+                EditText passField = (EditText) findViewById(R.id.PasswordS);
+                EditText passField2 = (EditText) findViewById(R.id.PasswordS2);
+                EditText username = (EditText) findViewById(R.id.Username);
+                EditText email = (EditText) findViewById(R.id.Email);
 
                 //check to see if passwords match, is greater than 7 characters and no space
                 if (passField.getText().toString().equals(passField2.getText().toString()) &&
@@ -49,69 +53,64 @@ public class Signup extends Activity implements View.OnClickListener{
 
 
                     password = passField.getText().toString(); //set password
+                    this.email = email.getText().toString(); //set email
 
-                    //check if user information is valid in database
-                    if (checkUser(username.getText().toString(), password, email.getText().toString()) == true)
-                    {
+                    //check if username valid
+                    if (checkUser(username.getText().toString(), this.password, this.email)) {
                         finished();
-                    }else
-                    {
+                    } else {
                         break;
                     }
 
-                }else {
+                } else {
 
-                        //password was invalid
-                        Toast.makeText(this, "Sign up failed! Please make sure your password has at least 7 characters and do not match.",
-                                Toast.LENGTH_SHORT).show();
-                        break;
-                    }
+                    //password was invalid
+                    Toast.makeText(this, "Sign up failed! Please make sure your password has at least 7 characters and match.",
+                            Toast.LENGTH_SHORT).show();
+                    break;
                 }
         }
-
+    }
 
 
     //check user is compatible with database, returns true if it is and program ends
-    protected boolean checkUser(String username, String password, String email)
-    {
+    protected boolean checkUser(String username, String password, String email) {
         if (username.contains(" ")) {
             Toast.makeText(this, "Username cannot have a space!",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (username.length() < 3)
-        {
+        if (username.length() < 3) {
             Toast.makeText(this, "Username cannot have less than 3 characters!",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (specialCase(username) == true)
-        {
+        if (specialCase(username)) {
             Toast.makeText(this, "Username cannot have any special characters!",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
 
+        this.username = username;
+
+        //if created in the database
         if (setCheck()) {
             Toast.makeText(this, "Sign up worked!", Toast.LENGTH_SHORT).show();
-            this.username = username; // init of username
+
             return true;
-        }
-        else
-        {
+        } else {
             Toast.makeText(this, "Sign up failed! Couldn't reach database", Toast.LENGTH_SHORT).show();
-            this.username = username; // init of username
             return false;
         }
 
     }
 
     //returns true if created successfully in database
-    protected boolean setCheck()
-    {
-        Data data = new Data(username, password);
-        return data.userCreate();
+    protected boolean setCheck() {
+            Data data = new Data();
+            return data.userCreate(username, password, email);
     }
+
 
     //check if username contains any special symbols
     protected boolean specialCase(String username)
