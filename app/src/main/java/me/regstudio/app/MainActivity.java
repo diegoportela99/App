@@ -75,6 +75,18 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        //personInformation.java result (if button was pressed)
+        if (requestCode == 3)
+        {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("result");
+                //the button was pressed, you can open the new transition
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+
     }//onActivityResult
 
     protected void makeSound()
@@ -91,6 +103,13 @@ public class MainActivity extends AppCompatActivity
         {
             Login();
         }
+    }
+
+    protected void personInfo()
+    {
+        makeSound();
+        Intent personInfo = new Intent(MainActivity.this, login.class);
+        startActivityForResult(personInfo, 3);
     }
 
     protected void Login()
