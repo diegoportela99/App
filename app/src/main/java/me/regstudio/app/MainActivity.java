@@ -15,6 +15,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
@@ -37,6 +40,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        Button r = (Button) findViewById(R.id.runButton);
+        r.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                run();
+            }
+        });
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -45,6 +56,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+
     }
 
 
@@ -59,7 +74,7 @@ public class MainActivity extends AppCompatActivity
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //go back to main page (clean up is done in the page's class)
-                makeSound();
+
 
             }
         }
@@ -87,6 +102,17 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        if (requestCode == 4)
+        {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("result");
+                //the button was pressed, you can open the new transition
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+
     }//onActivityResult
 
     protected void makeSound()
@@ -96,20 +122,30 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+
+
     protected void onButtonClick(View view)
     {
-
-        if (view.getId() == R.id.BLogin)
+        switch(view.getId())
         {
-            Login();
+            case R.id.BLogin:
+                Login();
+                break;
         }
     }
 
     protected void personInfo()
     {
         makeSound();
-        Intent personInfo = new Intent(MainActivity.this, login.class);
+        Intent personInfo = new Intent(MainActivity.this, personInformation.class);
         startActivityForResult(personInfo, 3);
+    }
+
+    protected void run()
+    {
+        makeSound();
+        Intent f = new Intent(MainActivity.this, run.class);
+        startActivityForResult(f, 4);
     }
 
     protected void Login()

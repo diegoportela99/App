@@ -138,7 +138,7 @@ public class Signup extends Activity implements View.OnClickListener {
     //finished activity
     private void finished()
     {
-        int result = 02;
+        int result = 2;
 
         Intent returnIntent = getIntent();
         returnIntent.putExtra("result",result);
