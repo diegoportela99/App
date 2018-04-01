@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 public class Data extends Activity{
 
+    MainActivity objMain;
+
     //Constructor
     public Data(){
 
@@ -31,6 +33,8 @@ public class Data extends Activity{
     protected boolean checkUser(String username, String password)
     {
 
+        //if true then setLoginButton to invisible and return true.
+        objMain.hide = true;
         return true;
     }
 

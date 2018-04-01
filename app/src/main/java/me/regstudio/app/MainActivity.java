@@ -16,12 +16,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    protected static boolean hide;
+    protected static int timeFinished;
+    //need to add the Km functionality (make sure its a static type!)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,10 +58,7 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-
-
-
+        hide = false;
     }
 
 
@@ -74,7 +73,10 @@ public class MainActivity extends AppCompatActivity
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //go back to main page (clean up is done in the page's class)
-
+                if (hide == true)
+                {
+                    hideLogin();
+                }
 
             }
         }
@@ -95,7 +97,8 @@ public class MainActivity extends AppCompatActivity
         {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra("result");
-                //the button was pressed, you can open the new transition
+                //finished() called
+
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -106,7 +109,11 @@ public class MainActivity extends AppCompatActivity
         {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra("result");
-                //the button was pressed, you can open the new transition
+                //finished() called (stop button)
+
+
+                Toast.makeText(this,  "Time Fin: " + timeFinished,
+                        Toast.LENGTH_SHORT).show();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
@@ -115,13 +122,18 @@ public class MainActivity extends AppCompatActivity
 
     }//onActivityResult
 
+    //hide the login button after logged on.
+    protected void hideLogin()
+    {
+        View b = findViewById(R.id.BLogin);
+        b.setVisibility(View.GONE);
+    }
+
     protected void makeSound()
     {
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.sound);
         mp.start();
     }
-
-
 
 
     protected void onButtonClick(View view)
