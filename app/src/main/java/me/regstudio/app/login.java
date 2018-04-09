@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 public class login extends Activity implements View.OnClickListener{
 
+    private MainActivity objMain;
     private String username, password;
     EditText user;
     EditText pass;
@@ -52,6 +53,8 @@ public class login extends Activity implements View.OnClickListener{
                 //check the username and password combination
                 if (checkSet())
                 {
+                    //if true then setLoginButton to invisible and return true.
+                    objMain.hideLogin = true;
                     finished(2);
                 } else{
                     Toast.makeText(this,  "Login in failed! Couldn't reach database",

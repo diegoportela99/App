@@ -21,7 +21,8 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    protected static boolean hide;
+    protected static boolean hideLogin, hideRun;
+
     protected static int timeFinished;
     //need to add the Km functionality (make sure its a static type!)
 
@@ -58,12 +59,16 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        hide = false;
+        hideLogin = false;
+        hideRun = true;
+
+        hideRun();
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
 
         if (requestCode == 1) {
             if(resultCode == Activity.RESULT_OK){
@@ -73,9 +78,10 @@ public class MainActivity extends AppCompatActivity
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //go back to main page (clean up is done in the page's class)
-                if (hide == true)
+                if (hideLogin == true)
                 {
                     hideLogin();
+                    showRun();
                 }
 
             }
@@ -128,6 +134,20 @@ public class MainActivity extends AppCompatActivity
         View b = findViewById(R.id.BLogin);
         b.setVisibility(View.GONE);
     }
+
+    protected void hideRun()
+    {
+        View b = findViewById(R.id.runButton);
+        b.setVisibility(View.GONE);
+    }
+
+    protected void showRun()
+    {
+        View b = findViewById(R.id.runButton);
+        b.setVisibility(View.VISIBLE);
+        hideRun = false;
+    }
+
 
     protected void makeSound()
     {

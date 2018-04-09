@@ -52,7 +52,7 @@ public class Signup extends Activity implements View.OnClickListener {
                         !passField.getText().toString().contains(" ")) {
 
 
-                    password = passField.getText().toString(); //set password
+                    this.password = passField.getText().toString(); //set password
                     this.email = email.getText().toString(); //set email
 
                     //check if username valid
@@ -74,7 +74,7 @@ public class Signup extends Activity implements View.OnClickListener {
 
 
     //check user is compatible with database, returns true if it is and program ends
-    protected boolean checkUser(String username, String password, String email) {
+    private boolean checkUser(String username, String password, String email) {
         if (username.contains(" ")) {
             Toast.makeText(this, "Username cannot have a space!",
                     Toast.LENGTH_SHORT).show();
@@ -91,6 +91,7 @@ public class Signup extends Activity implements View.OnClickListener {
             return false;
         }
 
+        //if all tests passed then set username
         this.username = username;
 
         //if created in the database
@@ -104,6 +105,7 @@ public class Signup extends Activity implements View.OnClickListener {
         }
 
     }
+
 
     //returns true if created successfully in database
     protected boolean setCheck() {
