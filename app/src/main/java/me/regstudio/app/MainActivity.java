@@ -23,8 +23,9 @@ public class MainActivity extends AppCompatActivity
 
     protected static boolean hideLogin, hideRun;
 
+    //these values must be added to the database rather than saved onto this class.
     protected static int timeFinished;
-    //need to add the Km functionality (make sure its a static type!)
+    //need to add the Km functionality
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class MainActivity extends AppCompatActivity
         hideLogin = false;
         hideRun = true;
 
-        hideRun();
+        hideRun("yes");
     }
 
 
@@ -80,8 +81,8 @@ public class MainActivity extends AppCompatActivity
                 //go back to main page (clean up is done in the page's class)
                 if (hideLogin == true)
                 {
-                    hideLogin();
-                    showRun();
+                    hideLogin("yes");
+                    hideRun("no");
                 }
 
             }
@@ -129,25 +130,43 @@ public class MainActivity extends AppCompatActivity
     }//onActivityResult
 
     //hide the login button after logged on.
-    protected void hideLogin()
+    protected void hideLogin(String x)
     {
         View b = findViewById(R.id.BLogin);
-        b.setVisibility(View.GONE);
+
+        switch (x)
+        {
+            case "yes":
+                b.setVisibility(View.GONE);
+                hideLogin = true;
+                break;
+
+            case "no":
+                b.setVisibility(View.VISIBLE);
+                hideLogin = false;
+                break;
+        }
+
     }
 
-    protected void hideRun()
+    protected void hideRun(String x)
     {
         View b = findViewById(R.id.runButton);
-        b.setVisibility(View.GONE);
-    }
 
-    protected void showRun()
-    {
-        View b = findViewById(R.id.runButton);
-        b.setVisibility(View.VISIBLE);
-        hideRun = false;
-    }
+        switch (x)
+        {
+            case "yes":
+                b.setVisibility(View.GONE);
+                hideRun = true;
+                break;
 
+            case "no":
+                b.setVisibility(View.VISIBLE);
+                hideRun = false;
+                break;
+        }
+
+    }
 
     protected void makeSound()
     {

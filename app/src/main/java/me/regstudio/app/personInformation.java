@@ -11,7 +11,7 @@ import android.widget.Button;
  * Created by diego on 3/26/2018.
  */
 
-//class most likely will not be used
+//class used for retrieving more information about the user.
 
 public class personInformation extends Activity{
 
