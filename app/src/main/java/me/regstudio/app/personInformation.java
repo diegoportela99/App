@@ -11,15 +11,15 @@ import android.widget.Button;
  * Created by diego on 3/26/2018.
  */
 
+//class most likely will not be used
+
 public class personInformation extends Activity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //example of button pressed
-        // Button pushed = (Button) findViewById(R.id.Button); //change R.id. (the button you pressed id)
-        // pushed.setOnClickListener(this);
+
     }
 
     //checks to see if anything was pressed
@@ -27,11 +27,7 @@ public class personInformation extends Activity{
     {
         switch(v.getId())
         {
-            //case R.id.Button:
-                // if you want to open a new slide
-                // then run finished() and go to MainActivity, the method onActivityResult.
-            //    finished();
-            //    break;
+
         }
     }
 
