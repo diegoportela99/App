@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
 
 public class Signup extends Activity implements View.OnClickListener {
 
-    private String password, username, email;
+    static private String password, username, email;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,7 +109,7 @@ public class Signup extends Activity implements View.OnClickListener {
 
     //returns true if created successfully in database
     protected boolean setCheck() {
-            Data data = new Data();
+            Data data = new Data(username, email, password);
             return data.userCreate(username, password, email);
     }
 

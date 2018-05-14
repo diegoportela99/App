@@ -16,7 +16,7 @@ import android.widget.Toast;
 public class login extends Activity implements View.OnClickListener{
 
     private MainActivity objMain;
-    private String username, password;
+    static private String username, password;
     EditText user;
     EditText pass;
 
@@ -74,10 +74,9 @@ public class login extends Activity implements View.OnClickListener{
 
     protected boolean checkSet() {
         //check if this is a valid user/pass combination
-        Data data = new Data();
+        Data data = new Data(username, password);
         return data.checkUser(username, password);
     }
-
 
     public void finished(int x)
     {
