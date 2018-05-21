@@ -8,19 +8,24 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.diego.random.R;
+
 /**
  * Created by diego on 3/26/2018.
  */
 
 //class used for retrieving more information about the user.
 
-public class personInformation extends Activity{
+public class personInformation extends Activity implements View.OnClickListener{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.person);
 
+        Button back = (Button) findViewById(R.id.backButton);
 
+        back.setOnClickListener(this);
     }
 
     //checks to see if anything was pressed
@@ -28,7 +33,9 @@ public class personInformation extends Activity{
     {
         switch(v.getId())
         {
-
+            case (R.id.backButton):
+                finished();
+                break;
         }
     }
 
