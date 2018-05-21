@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
-    private Toolbar mToolbar;
+    //private Toolbar mToolbar;
 
     protected static boolean hideLogin, hideRun;
 
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setTitle("Fitness App");
+
 
 //        mToolbar = (Toolbar) findViewById(R.id.nav_action);
 //        setSupportActionBar(mToolbar);
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(MenuItem menuItem){
                 switch (menuItem.getItemId()) {
                     case(R.id.nav_account):
-
+                        personInfo();
                         break;
 
                     case (R.id.nav_logout):
@@ -73,6 +74,12 @@ public class MainActivity extends AppCompatActivity {
                     case (R.id.nav_status):
 
                         break;
+
+                    case (R.id.nav_map):
+                        map();
+                        break;
+
+
                 }
                 return true;
             }
@@ -181,6 +188,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        if (requestCode == 6)
+        {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("result");
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+
     }//onActivityResult
 
     //hide the login button after logged on.
@@ -254,6 +272,13 @@ public class MainActivity extends AppCompatActivity {
         makeSound();
         Intent i = new Intent(MainActivity.this, login.class);
         startActivityForResult(i, 1);
+    }
+
+    protected void map()
+    {
+        makeSound();
+        Intent Map = new Intent(MainActivity.this, Map.class);
+        startActivityForResult(Map, 6);
     }
 
     protected void signup()

@@ -9,6 +9,10 @@
         android:icon="@mipmap/baseline_bar_chart_black_18dp"
         android:title="Status" />
 
+    <item android:id="@+id/nav_map"
+        android:icon="@mipmap/baseline_place_black_18dp"
+        android:title="Map" />
+
     <item android:id="@+id/nav_settings"
         android:icon="@mipmap/baseline_settings_black_18dp"
         android:title="My settings" />
@@ -16,4 +20,7 @@
     <item android:id="@+id/nav_logout"
         android:icon="@mipmap/baseline_done_black_18dp"
         android:title="logout" />
+
+
+
 </menu>
