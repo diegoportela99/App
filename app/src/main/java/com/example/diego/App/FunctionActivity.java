@@ -27,6 +27,7 @@ public class FunctionActivity extends AppCompatActivity implements SensorEventLi
     private TextView timeText; //Timing.
     private TextView stepText; //Count Step.
     private TextView speedText; //Real-time Speed.
+    private  TextView caloriesText;
     Button buttonStart; // Start the functions.
     Button buttonClear; // Stop the functions.
     private long startTime = 0; //Record the very beginning start time.
@@ -66,6 +67,12 @@ public class FunctionActivity extends AppCompatActivity implements SensorEventLi
                     a = 0;
                 }
                 stepText.setText(a + "");
+                double calories1 = a*Double.parseDouble("60")*0.000357781754; //Double.parseDouble("60") is the weight.
+                // if the data you get is String, u can just use the value of weight getten from user. if the value is exactly double, u can just use a*(double)weight*0.000357781754
+                // a is the step count.
+                int calories2 = (int)(calories1*100); //I want to use format to show the calories data, but just now I don't know why I can't use it, so I use this fool method.
+                double calories = (double)(calories2)/(double)(100);
+                caloriesText.setText(calories+"");
             }
         }
     }
@@ -153,6 +160,10 @@ public class FunctionActivity extends AppCompatActivity implements SensorEventLi
         finished();
     }
 
+    public void functionNext(View view) {
+        nextScreen();
+    }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -174,12 +185,14 @@ public class FunctionActivity extends AppCompatActivity implements SensorEventLi
         timeText = (TextView) findViewById(R.id.time);
         stepText = (TextView) findViewById(R.id.step);
         speedText = (TextView) findViewById(R.id.speed);
+        caloriesText = findViewById(R.id.calories);
     }
 
     private void setInitView() {
         timeText.setText("00:00:00");
         stepText.setText("0");
         speedText.setText("0.0");
+        caloriesText.setText("0");
     }
 
     private void setTime(long time) {
@@ -232,7 +245,7 @@ public class FunctionActivity extends AppCompatActivity implements SensorEventLi
 
     @Override
     public void onBackPressed() {
-        nextScreen();
+        finished();
     }
 
     private void nextScreen()

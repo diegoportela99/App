@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/ic_launcher_background"
         >
@@ -31,7 +31,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/ic_launcher_background">
 
@@ -57,7 +57,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="70dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/ic_launcher_background">
 
@@ -81,6 +81,32 @@
             android:text="meterPerSecond"/>
     </RelativeLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/ic_launcher_background">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calories"/>
+
+        <TextView
+            android:id="@+id/calories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="Cal"/>
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -88,17 +114,24 @@
 
         <Button
             android:id="@+id/buttonStart"
-            android:layout_width="190dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:onClick="functionStart"
             android:text="Start" />
 
         <Button
             android:id="@+id/buttonClear"
-            android:layout_width="190dp"
+            android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:onClick="functionClear"
             android:text="Stop" />
+
+        <Button
+            android:id="@+id/buttonReturn"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:onClick="functionNext"
+            android:text="Next Page" />
     </LinearLayout>
 
 </LinearLayout>
