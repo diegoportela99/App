@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.diego.random.com.example.diego.App.FunctionActivity"
+    tools:context="com.example.diego.App.FunctionActivity"
     tools:showIn="@layout/activity_function">
 
     <LinearLayout
@@ -24,7 +24,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Timing:"
+            android:text="Time: "
             android:textSize="25dp"
             android:textStyle="bold" />
 
@@ -38,8 +38,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="s"
             android:layout_gravity="right"
+            android:text="s"
             android:textSize="25dp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -58,12 +58,13 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:src="@drawable/ic_directions_run_black_24dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="StepCount:"
+            android:text="StepCount: "
             android:textSize="25dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/step"
@@ -101,9 +102,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Speed:"
+            android:text="Speed: "
             android:textSize="25dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/speed"
@@ -138,7 +139,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Calories"
+            android:text="Calories: "
             android:textSize="25dp"
             android:textStyle="bold" />
 
