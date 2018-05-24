@@ -270,3 +270,4 @@ public class FunctionActivity extends AppCompatActivity implements SensorEventLi
         finish();
     }
 }
+
