@@ -1,20 +1,34 @@
 package com.example.diego.App;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Debug;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.diego.random.R;
+
+import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.util.Vector;
+
+import static android.provider.Telephony.Mms.Part.FILENAME;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -29,15 +43,20 @@ public class MainActivity extends AppCompatActivity {
     //these values must be added to the database rather than saved onto this class.
     protected static int timeFinished;
     protected static int stepCount;
-    protected static double metersTravelled;
-    //need to add the Km functionality
+    protected static int metersTravelled;
+    public static final String TEXTFILE = "mydir_app.txt";
+    protected static String username, password, email;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setTitle("Fitness App");
+
+        readFileOnInternalStorage();
+
+        Toast.makeText(this,  "username: " + username,
+                Toast.LENGTH_SHORT).show();
 
 
 //        mToolbar = (Toolbar) findViewById(R.id.nav_action);
@@ -69,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case (R.id.nav_settings):
-
+                        setStorage();
                         break;
 
                     case (R.id.nav_status):
@@ -287,6 +306,56 @@ public class MainActivity extends AppCompatActivity {
         makeSound();
         Intent signup = new Intent(MainActivity.this, Signup.class);
         startActivityForResult(signup, 2);
+
+    }
+
+    protected void setStorage() {
+        writeFileOnInternalStorage(timeFinished + "\n" + stepCount + "\n" + metersTravelled + "\n" + username + "\n" + password + "\n" + email);
+        readFileOnInternalStorage();
+    }
+
+    public void writeFileOnInternalStorage(String sBody) {
+        try {
+            FileOutputStream fos =  openFileOutput(TEXTFILE, Context.MODE_PRIVATE);
+            fos.write(sBody.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            //Log.d(DEBUGTAG, "Unable to save file");
+        }
+
+    }
+
+    public void readFileOnInternalStorage() {
+        int x = 0;
+
+        try {
+            FileInputStream fis = openFileInput(TEXTFILE);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(fis)));
+
+            String line;
+            Vector<String> info = new Vector();
+
+
+            while ((line = reader.readLine()) != null) {
+                info.addElement(line);
+            }
+
+            info.toArray();
+
+            timeFinished = Integer.parseInt(info.elementAt(0));
+            stepCount = Integer.parseInt(info.elementAt(1));
+            metersTravelled = Integer.parseInt(info.elementAt(2));
+            username = (info.elementAt(3));
+            password = (info.elementAt(4));
+            email = (info.elementAt(5));
+
+            Toast.makeText(this, "username: " + username, Toast.LENGTH_SHORT).show();
+
+            fis.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

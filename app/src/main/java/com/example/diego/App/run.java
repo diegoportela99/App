@@ -32,7 +32,7 @@ public class run extends Activity implements View.OnClickListener{
     class setDistance implements Runnable {
         @Override
         public void run() {
-            mainObj.metersTravelled = 0.70104 * mainObj.stepCount;
+            mainObj.metersTravelled = (int) 0.70104 * mainObj.stepCount;
             distance.setText("" + mainObj.metersTravelled / 1000 + " Km");
         }
     }

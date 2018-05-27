@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 public class Data extends Activity{
 
+    MainActivity obj;
     //Constructor
     public Data(){
 
@@ -19,19 +20,32 @@ public class Data extends Activity{
     protected boolean userCreate(String username, String password, String email)
     {
         if (email.length() < 1){
-            // ~don't add the email to the database, because it doesn't exist
+            obj.username = username;
+            obj.password = password;
+
         } else{
-            // ~add email to the database, it does exist
+            obj.username = username;
+            obj.password = password;
+            obj.email = email;
         }
 
+        //obj.setStorage();
         return true;
     }
 
     //checks to see if user is in database, returns true if user exists
     public boolean checkUser(String username, String password)
     {
-
-        return true;
+        try {
+            if (obj.username.equals(username) && obj.password.equals(password)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
