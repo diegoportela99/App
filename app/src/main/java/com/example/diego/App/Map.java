@@ -56,10 +56,12 @@ public class Map extends FragmentActivity implements OnMapReadyCallback {
                 Geocoder geocoder = new Geocoder(getApplicationContext());
                 try {
                     List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-                    String address = addressList.get(0).getLocality() + " ";
-                    address += addressList.get(0).getCountryName();
+                    String address = addressList.get(0).getSubLocality() + "";
+                    address += addressList.get(0).getLocality() + "";
+                    address += addressList.get(0).getCountryName() + "";
+                    address += addressList.get(0).getPostalCode();
                     mMap.addMarker(new MarkerOptions().position(latLag).title(address));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLag, 12.2f));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLag, 16.2f));
 
                 } catch (IOException e) {
                     e.printStackTrace();
