@@ -18,7 +18,16 @@ android {
     }
 }
 
+
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
+
 dependencies {
+
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.2'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

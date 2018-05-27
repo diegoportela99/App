@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case (R.id.nav_status):
-
+                        graphing();
                         break;
 
                     case (R.id.nav_map):
@@ -219,6 +219,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        if (requestCode == 7)
+        {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("result");
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+
     }//onActivityResult
 
     //hide the login button after logged on.
@@ -307,6 +318,13 @@ public class MainActivity extends AppCompatActivity {
         Intent signup = new Intent(MainActivity.this, Signup.class);
         startActivityForResult(signup, 2);
 
+    }
+
+    protected void graphing()
+    {
+        makeSound();
+        Intent signup = new Intent(MainActivity.this, Graph.class);
+        startActivityForResult(signup, 7);
     }
 
     protected void setStorage() {

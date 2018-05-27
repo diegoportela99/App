@@ -9,6 +9,8 @@
 
     <string name="title_activity_function">FunctionActivity</string>
 
+    <string name="app">RunGraph</string>
+
     <string name="open">Open</string>
     <string name="close">Close</string>
 
