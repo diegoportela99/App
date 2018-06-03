@@ -29,6 +29,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -53,6 +54,8 @@ public class Graph extends AppCompatActivity{
     ArrayList<BarEntry> entries;
     SQLiteDatabase sqLiteDatabase;
     ArrayList<String> Runs;
+
+    static double xInt, yInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +82,19 @@ public class Graph extends AppCompatActivity{
         barChart.setPinchZoom(true);// If set to true, pinch-zooming is enabled. If disabled, x- and y-axis can be zoomed separately.
         barChart.setDoubleTapToZoomEnabled(true);
         barChart.invalidate();
-        barChart.clear();
+        //barChart.clear();
         // barChart.setDescription(Description desc); -- Sets the color of the chart border lines.
 
+        if (xInt != 0 && yInt != 0) {
+            setValues(xInt, yInt);
+            xInt = 0;
+            yInt = 0;
+            if (yInt > 1) {
+                Toast.makeText(this,"Data Inserted", Toast.LENGTH_LONG).show();
+            }
+        }
     }
+
 
     private void exqButton() {
         button.setOnClickListener(new View.OnClickListener() {
@@ -90,18 +102,21 @@ public class Graph extends AppCompatActivity{
             public void onClick(View v) {
                 double xVal = Double.parseDouble(String.valueOf(xInput.getText()));
                 double yVal = Double.parseDouble(String.valueOf(yInput.getText()));
-                myHelper.insertData(xVal, yVal);
-
-                entries = new ArrayList<BarEntry>(Arrays.asList(getData()));
-
-                BarDataSet barDataSet = new BarDataSet(entries, "Runs");
-                BarData barData = new BarData(barDataSet);
-                barChart.setData(barData);
-
-
+                setValues(xVal, yVal);
             }
         });
     }
+
+    protected void setValues(double x, double y) {
+        myHelper.insertData(x, y);
+
+        entries = new ArrayList<BarEntry>(Arrays.asList(getData()));
+
+        BarDataSet barDataSet = new BarDataSet(entries, "Runs");
+        BarData barData = new BarData(barDataSet);
+        barChart.setData(barData);
+    }
+
 
     private BarEntry[] getData() {
         // Read data from database

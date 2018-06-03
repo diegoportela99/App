@@ -57,8 +57,10 @@ public class login extends Activity implements View.OnClickListener{
                 {
                     //if true then setLoginButton to invisible and return true.
                     objMain.hideLogin = true;
+                    objMain.loggedIn = true;
                     finished(2);
                 } else{
+                    objMain.loggedIn = false;
                     Toast.makeText(this,  "Login in failed! Couldn't reach database",
                             Toast.LENGTH_SHORT).show();
                 }

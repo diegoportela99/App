@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.diego.random.R;
@@ -36,16 +37,16 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
 
+    private Graph g;
+
     //private Toolbar mToolbar;
 
-    protected static boolean hideLogin, hideRun;
+    protected static boolean hideLogin, hideRun, loggedIn;
 
     //these values must be added to the database rather than saved onto this class.
-    protected static int timeFinished;
-    protected static int stepCount;
-    protected static int metersTravelled;
     public static final String TEXTFILE = "mydir_app.txt";
-    protected static String username, password, email;
+    protected static String username, password, email, name;
+    protected static int stepHist, age, numOfRuns, stepCount, timeFinished, metersTravelled, weight, height;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,14 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle("Fitness App");
 
-        readFileOnInternalStorage();
-
-        Toast.makeText(this,  "username: " + username,
-                Toast.LENGTH_SHORT).show();
-
-
-//        mToolbar = (Toolbar) findViewById(R.id.nav_action);
-//        setSupportActionBar(mToolbar);
+        readFileOnInternalStorage(); //gets database information
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.open, R.string.close);
@@ -72,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button r = (Button) findViewById(R.id.runButton);
         Button l = (Button) findViewById(R.id.BLogin);
+        Button n = (Button) findViewById(R.id.addGraph);
 
         NavigationView nv = (NavigationView) findViewById(R.id.nv1);
 
@@ -81,10 +76,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case(R.id.nav_account):
                         personInfo();
+
                         break;
-
                     case (R.id.nav_logout):
+                        logout();
+                        hideRun("yes");
+                        hideLogin("no");
 
+                        loggedIn = false;
+                        setScoreToZero();
                         break;
 
                     case (R.id.nav_settings):
@@ -99,7 +99,6 @@ public class MainActivity extends AppCompatActivity {
                         map();
                         break;
 
-
                 }
                 return true;
             }
@@ -111,18 +110,30 @@ public class MainActivity extends AppCompatActivity {
                 Login();
             }
         });
-
         r.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 functionActivity();
             }
         });
+        n.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addGraph();
+            }
 
-        hideLogin = false;
-        hideRun = true;
+        });
 
-        hideRun("yes");
+        if (username != null && loggedIn == true) {
+            hideRun("no");
+            hideLogin("yes");
+            updateScores();
+        } else if (loggedIn == false){
+            hideRun("yes");
+            setScoreToZero();
+        } else {
+            hideRun("yes");
+        }
     }
 
     @Override
@@ -151,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     hideLogin("yes");
                     hideRun("no");
                 }
-
+                makeSound();
             }
         }
 
@@ -176,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
+                Changes();
             }
         }
 
@@ -184,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra("result");
                 //finished() called (stop button)
-
+                updateScores();
 
             }
             if (resultCode == Activity.RESULT_CANCELED) {
@@ -197,13 +209,12 @@ public class MainActivity extends AppCompatActivity {
         {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra("result");
+                Toast.makeText(this,  "Good job!", Toast.LENGTH_SHORT).show();
 
-                Toast.makeText(this,  "finished, time: " + timeFinished / 1000 + ", Steps: " + stepCount + "!",
-                        Toast.LENGTH_SHORT).show();
+                updateScores();
             }
             if (resultCode == Activity.RESULT_CANCELED) {
                 run();
-
 
             }
         }
@@ -220,6 +231,17 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (requestCode == 7)
+        {
+            if(resultCode == Activity.RESULT_OK){
+                String result=data.getStringExtra("result");
+
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+
+        if (requestCode == 8)
         {
             if(resultCode == Activity.RESULT_OK){
                 String result=data.getStringExtra("result");
@@ -252,6 +274,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void logout() {
+        Toast.makeText(this,  "Logged out!", Toast.LENGTH_SHORT).show();
+    }
+
     protected void hideRun(String x)
     {
         View b = findViewById(R.id.runButton);
@@ -273,6 +299,12 @@ public class MainActivity extends AppCompatActivity {
 
     protected void makeSound()
     {
+        if (loggedIn) {
+            updateScores();
+        } else {
+            setScoreToZero();
+        }
+
         final MediaPlayer mp = MediaPlayer.create(this, R.raw.sound);
         mp.start();
     }
@@ -323,12 +355,56 @@ public class MainActivity extends AppCompatActivity {
     protected void graphing()
     {
         makeSound();
+        g.xInt = 0.001;
+        g.yInt = 0.001;
         Intent signup = new Intent(MainActivity.this, Graph.class);
         startActivityForResult(signup, 7);
     }
 
+    protected void Changes() {
+        makeSound();
+        Intent signup = new Intent(MainActivity.this, changes.class);
+        startActivityForResult(signup, 8);
+    }
+
+    protected void updateScores() {
+        TextView score = (TextView) findViewById(R.id.TotalScore);
+        TextView lastStep = (TextView) findViewById(R.id.StepCount);
+        TextView lastRun = (TextView) findViewById(R.id.RunTime);
+
+        lastStep.setText("" + stepCount);
+        lastRun.setText(""+ timeFinished/1000);
+        score.setText("" + stepHist);
+
+        setStorage();
+    }
+
+    protected void addGraph() {
+        makeSound();
+
+        g.xInt = numOfRuns;
+        g.yInt = timeFinished/1000;
+        Intent signup = new Intent(MainActivity.this, Graph.class);
+        startActivityForResult(signup, 7);
+    }
+
+    protected void setScoreToZero() {
+        TextView score = (TextView) findViewById(R.id.TotalScore);
+        TextView lastStep = (TextView) findViewById(R.id.StepCount);
+        TextView lastRun = (TextView) findViewById(R.id.RunTime);
+
+        lastStep.setText("0");
+        lastRun.setText("0");
+        score.setText("0");
+
+        setStorage();
+    }
+
     protected void setStorage() {
-        writeFileOnInternalStorage(timeFinished + "\n" + stepCount + "\n" + metersTravelled + "\n" + username + "\n" + password + "\n" + email);
+        writeFileOnInternalStorage(timeFinished + "\n" + stepCount + "\n" + metersTravelled
+                + "\n" + username + "\n" + password + "\n" + email + "\n" + stepHist + "\n"
+                + numOfRuns + "\n" + loggedIn + "\n" + name + "\n" + height + "\n" + weight + "\n" + age);
+
         readFileOnInternalStorage();
     }
 
@@ -339,21 +415,16 @@ public class MainActivity extends AppCompatActivity {
             fos.close();
         } catch (Exception e) {
             e.printStackTrace();
-            //Log.d(DEBUGTAG, "Unable to save file");
         }
-
     }
 
     public void readFileOnInternalStorage() {
-        int x = 0;
-
         try {
             FileInputStream fis = openFileInput(TEXTFILE);
             BufferedReader reader = new BufferedReader(new InputStreamReader(new DataInputStream(fis)));
 
             String line;
             Vector<String> info = new Vector();
-
 
             while ((line = reader.readLine()) != null) {
                 info.addElement(line);
@@ -367,8 +438,13 @@ public class MainActivity extends AppCompatActivity {
             username = (info.elementAt(3));
             password = (info.elementAt(4));
             email = (info.elementAt(5));
-
-            Toast.makeText(this, "username: " + username, Toast.LENGTH_SHORT).show();
+            stepHist = Integer.parseInt(info.elementAt(6));
+            numOfRuns = Integer.parseInt(info.elementAt(7));
+            loggedIn = Boolean.parseBoolean(info.elementAt(8));
+            name = (info.elementAt(9));
+            height = Integer.parseInt(info.elementAt(10));
+            weight = Integer.parseInt(info.elementAt(11));
+            age = Integer.parseInt(info.elementAt(12));
 
             fis.close();
         } catch (Exception e) {

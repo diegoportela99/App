@@ -33,6 +33,7 @@
         <activity android:name="com.example.diego.App.run"></activity>
         <activity android:name="com.example.diego.App.FunctionActivity"></activity>
         <activity android:name="com.example.diego.App.Graph"></activity>
+        <activity android:name="com.example.diego.App.changes"></activity>
         <activity
             android:name="com.example.diego.App.Map"
             android:label="@string/title_activity_maps">

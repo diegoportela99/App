@@ -33,7 +33,5 @@ class MyHelper  extends SQLiteOpenHelper {
         contentValues.put("yValues",valY);
 
         db.insert("RunTimes", null,contentValues);
-        Toast.makeText(con,"Data Inserted", Toast.LENGTH_LONG).show();
-
     }
 }

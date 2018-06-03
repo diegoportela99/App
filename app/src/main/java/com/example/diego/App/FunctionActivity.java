@@ -51,6 +51,7 @@ public class FunctionActivity extends AppCompatActivity implements SensorEventLi
                 time = System.currentTimeMillis() - startTime;
                 mainObj.timeFinished = (int) time;
                 mainObj.stepCount = stepNum - stepNumHistory;
+                mainObj.stepHist = stepNumHistory;
                 setTime(time);
                 mHandler.postDelayed(setTimeRunnable, 21);
             }
@@ -263,6 +264,7 @@ public class FunctionActivity extends AppCompatActivity implements SensorEventLi
         //setFinishedTime();
         //setSteps();
         int result = 5;
+        mainObj.numOfRuns++;
 
         Intent returnIntent = getIntent();
         returnIntent.putExtra("result",result);
